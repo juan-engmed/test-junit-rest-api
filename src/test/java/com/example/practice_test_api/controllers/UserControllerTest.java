@@ -88,6 +88,17 @@ class UserControllerTest {
 
     @Test
     void create() {
+        when(userServiceImpl.create(any())).thenReturn(user);
+
+        var response = userController.create(userDTO);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass();
+        assertNotNull(response.getHeaders().get("Location"));
+
+
+
+
     }
 
     @Test
