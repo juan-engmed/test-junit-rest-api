@@ -1,6 +1,7 @@
 package com.example.practice_test_api.controllers;
 
 import com.example.practice_test_api.dto.UserDto;
+import com.example.practice_test_api.entities.User;
 import com.example.practice_test_api.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,12 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
+
+    private static final String ID = "/{id}";
 
     @Autowired
     private ModelMapper modelMapper;
@@ -40,5 +44,14 @@ public class UserController {
                 .path("/{id}")
                     .buildAndExpand((userService.create(obj).getId())).toUri();
                         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping(value = ID)
+    public ResponseEntity<UserDto> update(@PathVariable Integer id, @RequestBody UserDto obj ){
+
+        obj.setId(id);
+        User updateObj = userService.update(obj);
+        return ResponseEntity.ok().body(modelMapper.map(updateObj, UserDto.class));
+
     }
 }
