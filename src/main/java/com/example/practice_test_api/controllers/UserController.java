@@ -26,7 +26,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = ID)
     public ResponseEntity<UserDto> findById(@PathVariable Integer id){
     return ResponseEntity.ok().body(modelMapper.map(userService.findById(id), UserDto.class));
     }
@@ -41,7 +41,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDto> create(@RequestBody UserDto obj) {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
-                .path("/{id}")
+                .path(ID)
                     .buildAndExpand((userService.create(obj).getId())).toUri();
                         return ResponseEntity.created(uri).build();
     }
@@ -53,5 +53,11 @@ public class UserController {
         User updateObj = userService.update(obj);
         return ResponseEntity.ok().body(modelMapper.map(updateObj, UserDto.class));
 
+    }
+
+    @DeleteMapping(value = ID)
+    public ResponseEntity<UserDto> delete(@PathVariable Integer id){
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
