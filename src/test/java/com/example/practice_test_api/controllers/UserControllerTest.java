@@ -96,13 +96,25 @@ class UserControllerTest {
         assertEquals(ResponseEntity.class, response.getClass());
         assertNotNull(response.getHeaders().get("Location"));
 
-
-
-
     }
 
     @Test
     void update() {
+        when(userServiceImpl.update(userDTO)).thenReturn(user);
+        when(modelMapper.map(any(), any())).thenReturn(userDTO);
+
+        var response = userController.update(ID, userDTO);
+
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(UserDto.class, response.getBody().getClass());
+
+        assertEquals(ID, response.getBody().getId());
+        assertEquals(NAME, response.getBody().getName());
+        assertEquals(EMAIL, response.getBody().getEmail());
+
+
     }
 
     @Test
