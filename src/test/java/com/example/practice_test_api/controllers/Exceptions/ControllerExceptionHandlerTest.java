@@ -1,5 +1,6 @@
 package com.example.practice_test_api.controllers.Exceptions;
 
+import com.example.practice_test_api.services.Exceptions.DataIntegratyViolationException;
 import com.example.practice_test_api.services.Exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ class ControllerExceptionHandlerTest {
     void objectNotFound() {
         var response = controllerExceptionHandler
                 .objectNotFound(
-                        new ObjectNotFoundException("Objeto não encontrad"),
+                        new ObjectNotFoundException("Objeto não encontrado"),
                         new MockHttpServletRequest());
 
         assertNotNull(response);
@@ -43,5 +44,16 @@ class ControllerExceptionHandlerTest {
 
     @Test
     void dataIntegrityViolation() {
+        var response = controllerExceptionHandler
+                .dataIntegrityViolation(
+                        new DataIntegratyViolationException("Email já cadastrado"),
+                        new MockHttpServletRequest());
+
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(StandardError.class, response.getBody().getClass());
+        assertEquals(400, response.getBody().getStatus());
     }
 }
