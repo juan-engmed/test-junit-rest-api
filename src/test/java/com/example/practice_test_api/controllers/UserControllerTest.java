@@ -93,7 +93,7 @@ class UserControllerTest {
         var response = userController.create(userDTO);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(ResponseEntity.class, response.getClass();
+        assertEquals(ResponseEntity.class, response.getClass());
         assertNotNull(response.getHeaders().get("Location"));
 
 
