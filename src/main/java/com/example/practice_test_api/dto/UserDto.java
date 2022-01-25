@@ -20,4 +20,5 @@ public class UserDto {
 
     @JsonIgnore
     private String password;
+
 }
